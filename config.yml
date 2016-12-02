@@ -1,0 +1,39 @@
+template: Hello, %s
+defaultName: ${DW_DEFAULT_NAME:-Neo}
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  user: root
+  password: root
+  url: jdbc:mysql://localhost:3306/auction?characterEncoding=UTF-8&useSSL=false
+  properties:
+    hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    charSet: UTF-8
+    hibernate.show_sql: true
+    hibernate.format_sql: true
+    hibernate.hbm2ddl.auto: update
+    maxWaitForConnection: 1s
+    validationQuery: /* MyApplication Health Check */ SELECT 1
+    minSize: 8
+    maxSize: 32
+    checkConnectionWhileIdle: fals
+server:
+  applicationContextPath: /auction
+  shutdownGracePeriod: 5s
+  minThreads: 10
+  maxThreads: 1024
+  applicationConnectors:
+  - type: http
+    port: 8080
+    idleTimeout: 200s
+    useServerHeader: false
+    useDateHeader: true
+    useForwardedHeaders: true
+  adminConnectors:
+  - type: http
+    port: 8081
+logging:
+  level: info
+  loggers:
+    com.rest.api.auction: DEBUG
+    org.hibernate.SQL:
+      level: DEBUG
