@@ -1,5 +1,5 @@
 # dropwizard-sample
-Basic application using Dropwizard and MySql
+Basic application using Dropwizard , MySql and Builder Pattern
 
 #To run
 Open the **config.yml** file and update the following properties accordingly. I am using MySql for examples
