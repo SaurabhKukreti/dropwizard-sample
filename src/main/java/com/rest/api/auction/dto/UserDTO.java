@@ -1,10 +1,17 @@
 package com.rest.api.auction.dto;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.BeanUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.rest.api.auction.entity.User;
 
 @JsonDeserialize(builder = UserDTO.Builder.class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 	// Required parameters
 	private final String email;
@@ -36,8 +43,9 @@ public class UserDTO {
 		private String firstName;
 		private String lastName;
 
-		public Builder(){}
-		
+		public Builder() {
+		}
+
 		public Builder setEmail(String email) {
 			this.email = email;
 			return this;
@@ -77,6 +85,20 @@ public class UserDTO {
 
 	public String getLastName() {
 		return lastName;
+	}
+
+	public static User toUser(UserDTO userDTO) throws IllegalAccessException, InvocationTargetException {
+		User user = new User();
+		BeanUtils.copyProperties(user, userDTO);
+		return user;
+	}
+
+	public static UserDTO toDTO(User user) {
+		UserDTO userDTO = new UserDTO.Builder()
+									 .setEmail(user.getEmail())
+									 .setFirstName(user.getFirstName())
+									 .setLastName(user.getLastName()).build();
+		return userDTO;
 	}
 
 	/*
